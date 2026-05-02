@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>XO Battle Game</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+    /* Премиальный темный фон и шрифты */
+    body {
+        margin: 0;
+        padding: 16px;
+        background-color: #050505;
+        color: #ffffff;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Карточки с эффектом стекла и градиентом */
+    .card, .btn-main, .btn-row-item, .btn-full {
+        background: linear-gradient(145deg, #1a1a1a, #111111);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 20px;
+        transition: transform 0.1s ease, background 0.2s ease;
+    }
+
+    /* Эффект нажатия для всех кнопок */
+    .btn-main:active, .btn-row-item:active, .btn-full:active {
+        transform: scale(0.97);
+        background: #1f1f1f;
+    }
+
+    /* Заголовок профиля */
+    .greeting-card {
+        background: linear-gradient(135deg, #1c1c1e 0%, #0a0a0a 100%);
+    }
+    .greeting-card p { color: #8e8e93; font-size: 12px; font-weight: 600; text-transform: uppercase; margin: 0; }
+    .greeting-card h1 { font-size: 32px; margin: 8px 0; line-height: 1.1; }
+    .highlight { color: #ffd60a; } /* Желтый акцент для "Побеждать" */
+
+    /* Статистика в шапке */
+    .stats { display: flex; gap: 15px; margin-top: 10px; font-size: 14px; color: #8e8e93; }
+    .stats span { color: #fff; font-weight: bold; }
+    .icon-small { color: #30d158; margin-right: 4px; } /* Зеленый для кубка */
+
+    /* Кнопки основных режимов */
+    .btn-main { display: flex; align-items: center; gap: 16px; text-align: left; }
+    .btn-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+    .btn-content h2 { font-size: 18px; margin: 0; }
+    .btn-content p { font-size: 13px; color: #8e8e93; margin: 4px 0 0; }
+
+    /* Нижний ряд (Магазин и Профиль) */
+    .row { display: flex; gap: 12px; }
+    .btn-row-item { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+    /* Таблица лидеров */
+    .btn-full {
+        text-align: center;
+        padding: 14px;
+        font-weight: 600;
+        color: #ffd60a;
+        background: rgba(255, 214, 10, 0.05);
+        border: 1px solid rgba(255, 214, 10, 0.1);
+    }
+</style>
+</head>
+<body>
+    <div class="greeting-card card">
+        <p>Привет, Чемпион!</p>
+        <h1>Время<br><span class="highlight">побеждать.</span></h1>
+        <div class="stats">
+            <div><span class="icon-small">🏆</span><span>1</span></div>
+            <div>• 0 поражений</div>
+            <div>• 💰 <span>500</span></div>
+        </div>
+    </div>
+
+    <div class="btn-main" onclick="send('play_bot')">
+        <div class="btn-icon-wrapper">🤖</div>
+        <div class="btn-content">
+            <h2>Играть с ботом</h2>
+            <p>Тренировка против AI</p>
+        </div>
+    </div>
+
+    <div class="btn-main" onclick="send('play_friend')">
+        <div class="btn-icon-wrapper">👥</div>
+        <div class="btn-content">
+            <h2>Играть с другом</h2>
+            <p>Ставка • Победитель забирает банк</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="btn-row-item" onclick="send('shop')">
+            <div class="btn-icon-wrapper">🛍️</div>
+            <div class="btn-content">
+                <h2>Магазин</h2>
+                <p>Скины</p>
+            </div>
+        </div>
+        <div class="btn-row-item" onclick="send('profile')">
+            <div class="btn-icon-wrapper">👤</div>
+            <div class="btn-content">
+                <h2>Профиль</h2>
+                <p>Статистика</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-full" onclick="send('leaderboard')">
+        👑 Таблица лидеров
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        function send(action) {
+            tg.sendData(action); // Отправляем команду боту
+            tg.close(); // Закрываем приложение после выбора (по желанию)
+        }
+    </script>
+</body>
+</html>
